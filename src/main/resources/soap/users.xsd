@@ -1,0 +1,37 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://www.soapexample.antony.glim/util"
+           targetNamespace="http://www.soapexample.antony.glim/util"
+           elementFormDefault="qualified">
+
+    <xs:element name="getUsersListRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getUsersListResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="usersList" type="tns:usersList"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="user">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="secondName" type="xs:string"/>
+            <xs:element name="phone" type="xs:string"/>
+            <xs:element name="address" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="usersList">
+        <xs:sequence>
+            <xs:element name="users" type="tns:user" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
