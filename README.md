@@ -1,51 +1,61 @@
 # soapExample
 Symple SOAP service
 
-Веб сервис разворачивается на localhost согласно файлу настроек
+Веб сервис разворачивается на localhost согласно файлу настроек.
 ```
 server.port=8188
 server.servlet.context-path=/soapexample
 ```  
-На вход принимает запрос вида (POST):
+Логин: "admin", пароль: "password"
+На вход принимает запрос вида (POST):  
+(в тэге wsse:Security необходимо обновить дату в момент запроса например в программе soapUI)
 ```
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-xmlns:sch="http://www.soapexample.antony.glim/util">
-	<soapenv:Header/>
-    <soapenv:Body>
-        <sch:getUsersListRequest> 
-        	<sch:name>somename</sch:name>
-        </sch:getUsersListRequest>
-    </soapenv:Body>
+<soapenv:Envelope xmlns:sch="http://www.soapexample.antony.glim/util" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header>
+      <wsse:Security soapenv:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-F85F279E6A7DFA4767158064984045122">
+            <wsse:Username>admin</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">iRykvaEG/m3zwKFhM0Z/6yVnXcM=</wsse:Password>
+            <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">7QSkxIn12ayApBi4dd6mmw==</wsse:Nonce>
+            <wsu:Created>2020-02-02T13:24:00.451Z</wsu:Created>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </soapenv:Header>
+   <soapenv:Body>
+      <sch:getUsersListRequest>
+         <sch:name>somename</sch:name>
+      </sch:getUsersListRequest>
+   </soapenv:Body>
 </soapenv:Envelope>
 ```  
-В ответ сервис отдаст список пользователей завернутых воо внешний класс вида:
+В ответ сервис отдаст список пользователей завернутых во внешний класс вида:
 ```
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
-    <SOAP-ENV:Header/>
-    <SOAP-ENV:Body>
-        <ns2:getUsersListResponse xmlns:ns2="http://www.soapexample.antony.glim/util">
-            <ns2:usersList>
-                <ns2:users>
-                    <ns2:name>Name 1</ns2:name>
-                    <ns2:secondName>SecondName 1</ns2:secondName>
-                    <ns2:phone>+7123456781</ns2:phone>
-                    <ns2:address>Some Address 1</ns2:address>
-                </ns2:users>
-                <ns2:users>
-                    <ns2:name>Name 2</ns2:name>
-                    <ns2:secondName>SecondName 2</ns2:secondName>
-                    <ns2:phone>+7123456782</ns2:phone>
-                    <ns2:address>Some Address 2</ns2:address>
-                </ns2:users>
-                <ns2:users>
-                    <ns2:name>Name 3</ns2:name>
-                    <ns2:secondName>SecondName 3</ns2:secondName>
-                    <ns2:phone>+7123456783</ns2:phone>
-                    <ns2:address>Some Address 3</ns2:address>
-                </ns2:users>
-            </ns2:usersList>
-        </ns2:getUsersListResponse>
-    </SOAP-ENV:Body>
+   <SOAP-ENV:Header/>
+   <SOAP-ENV:Body>
+      <ns2:getUsersListResponse xmlns:ns2="http://www.soapexample.antony.glim/util">
+         <ns2:usersList>
+            <ns2:users>
+               <ns2:name>Name 1</ns2:name>
+               <ns2:secondName>SecondName 1</ns2:secondName>
+               <ns2:phone>+7123456781</ns2:phone>
+               <ns2:address>Some Address 1</ns2:address>
+            </ns2:users>
+            <ns2:users>
+               <ns2:name>Name 2</ns2:name>
+               <ns2:secondName>SecondName 2</ns2:secondName>
+               <ns2:phone>+7123456782</ns2:phone>
+               <ns2:address>Some Address 2</ns2:address>
+            </ns2:users>
+            <ns2:users>
+               <ns2:name>Name 3</ns2:name>
+               <ns2:secondName>SecondName 3</ns2:secondName>
+               <ns2:phone>+7123456783</ns2:phone>
+               <ns2:address>Some Address 3</ns2:address>
+            </ns2:users>
+         </ns2:usersList>
+      </ns2:getUsersListResponse>
+   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
 ```  
 
